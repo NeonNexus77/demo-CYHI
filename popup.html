@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Productivity Tools</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>Productivity Tools</h2>
+
+  <div>
+    <h3>Website Timer</h3>
+    <input type="number" id="timerMinutes" placeholder="Minutes">
+    <button id="startTimer">Start Timer</button>
+    <div id="timerMessage" style="color: red; margin-top: 5px;"></div>
+  </div>
+
+  <div>
+    <h3>Task Scheduler</h3>
+    <input type="text" id="taskName" placeholder="Task name">
+    <input type="datetime-local" id="taskTime">
+    <input type="url" id="taskLink" placeholder="(Optional) Meeting Link">
+    <button id="addTask">Add Task</button>
+    <div id="schedulerMessage" style="color: red; margin-top: 5px;"></div>
+    <ul id="taskList"></ul>
+  </div>
+
+  <div>
+    <h3>Document Summarizer</h3>
+    <button id="summarizeDoc">Summarize Current Page</button>
+    <p id="summaryResult"></p>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
