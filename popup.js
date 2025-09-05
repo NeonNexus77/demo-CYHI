@@ -135,16 +135,29 @@ document.getElementById("addTask").addEventListener("click", () => {
 
 // Summarize document
 document.getElementById("summarizeDoc").addEventListener("click", async () => {
+  const summaryResult = document.getElementById("summaryResult");
+  summaryResult.innerText = "Summarizing...";
+
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  document.getElementById("summaryResult").innerText = "Summarizing...";
+  
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: () => document.body.innerText
   }, (results) => {
-    let text = results[0].result;
-    // This is a very simple summary; for a real extension, use a more advanced algorithm.
-    let summary = text.split(". ").slice(0, 5).join(". ") + "...";
-    document.getElementById("summaryResult").innerText = summary;
+    const text = results[0].result;
+    
+    if (!text || text.trim().length === 0) {
+      summaryResult.innerText = "Could not find any text to summarize on this page.";
+      return;
+    }
+
+    // A simple, direct summarization function that takes a percentage of sentences.
+    const sentences = text.split(/[.?!]\s*/);
+    const summaryLength = Math.max(5, Math.floor(sentences.length * 0.20)); // Take 20% of sentences, but at least 5
+    
+    let summary = sentences.slice(0, summaryLength).join(". ") + (sentences.length > summaryLength ? "." : "");
+    
+    summaryResult.innerText = summary;
   });
 });
 
